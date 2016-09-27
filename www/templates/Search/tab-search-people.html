@@ -1,0 +1,33 @@
+<ion-view >
+	<ion-nav-title>
+		</ion-nav-title>
+	<ion-nav-buttons class="button-bar">
+				<a nav-direction="exit" class="button button-icon icon ion-android-arrow-back" href="#/tab/search"></a>
+				<label class="item-input">
+    		<input type="text" placeholder="Search">
+  			</label>
+	</ion-nav-buttons>
+	<div class="tabs-striped tabs-top tabs-color-dark">
+		<div class="tabs">
+			<a nav-direction="swap" class="tab-item" href="#/tab/search-top">
+				<b>TOP</b>
+			</a>
+			<a class="tab-item active" href="#/tab/search-people">
+				<b>PEOPLE</b>
+			</a>
+			<a nav-direction="swap" class="tab-item" href="#/tab/search-tags">
+				<b>TAGS</b>
+			</a>
+			<a nav-direction="swap" class="tab-item" href="#/tab/search-places">
+				<b>PLACES</b>
+			</a>
+		</div>
+	</div>
+	<ion-content has-header="true" has-subheader="true">
+		<ion-refresher
+			pulling-text="Pull to refresh..."
+			on-refresh="doRefresh()">
+		</ion-refresher>
+
+  </ion-content>
+</ion-view>

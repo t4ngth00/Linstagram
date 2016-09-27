@@ -1,0 +1,69 @@
+<ion-view	 >
+	<ion-nav-title>
+      Linstagram
+    </ion-nav-title>
+	<ion-nav-buttons side="left">
+			<a nav-direction="back" class="button button-icon icon ion-android-add-circle" ng-click="doSomething()" ></a>
+	</ion-nav-buttons>
+	<ion-nav-buttons side="right">
+			<a nav-direction="forward" class="button button-icon icon ion-android-chat" href="#/tab/chats"></a>
+	</ion-nav-buttons>
+
+	<ion-content>
+		<ion-refresher
+			pulling-text="Pull to refresh..."
+			on-refresh="doRefresh()">
+		</ion-refresher>
+
+		<div class="card">
+			<div class="item item-avatar item-button-right avatar-bar-custom" href="#">
+				<img src="img/adam.jpg">
+				<h2 class="padding-top">Adam</h2>
+				<button class="button button-icon icon ion-android-more-vertical btn-avatar" ></button>
+			</div>
+
+			<div class="item item-image">
+				<img class="no margin" src="img/adam.jpg">
+			</div>
+			<div class="">
+				<a class="button button-icon icon ion-ios-heart-outline" ng-click="doSomething()" ></a>
+				<a class="button button-icon icon ion-ios-chatbubble-outline" ng-click="doSomething()" ></a>
+				<a class="button button-icon icon ion-ios-redo-outline" ng-click="doSomething()" ></a>
+			</div>
+
+			<div class="item item-text-wrap">
+				<p> <a href="#" class="subdued ion-heart" > 5 Like</a><br>
+				<b>Nhan </b>hahaha<br>
+				<b>Huy </b>hahaha<br>
+				<b>Nam </b>hahaha </p>
+				<p>5 days ago</p>
+			</div>
+		</div>
+
+		<div class="card">
+			<div class="item item-avatar item-button-right avatar-bar-custom" href="#">
+				<img src="img/adam.jpg">
+				<h2 class="padding-top">Adam</h2>
+				<button class="button button-icon icon ion-android-more-vertical padding-top" ></button>
+			</div>
+
+			<div class="item item-image">
+				<img class="no margin" src="img/adam.jpg">
+			</div>
+			<div class="">
+				<a class="button button-icon icon ion-ios-heart-outline" ng-click="doSomething()" ></a>
+				<a class="button button-icon icon ion-ios-chatbubble-outline" ng-click="doSomething()" ></a>
+				<a class="button button-icon icon ion-ios-redo-outline" ng-click="doSomething()" ></a>
+			</div>
+
+			<div class="item item-text-wrap">
+				<p> <a href="#" class="subdued ion-heart" > 5 Like</a><br>
+				<b>Nhan </b>hahaha<br>
+				<b>Huy </b>hahaha<br>
+				<b>Nam </b>hahaha </p>
+				<p>5 days ago</p>
+			</div>
+		</div>
+
+	</ion-content>
+</ion-view>

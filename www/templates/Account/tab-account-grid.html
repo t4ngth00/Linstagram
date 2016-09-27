@@ -1,0 +1,48 @@
+<ion-view hide-back-button="true">
+	<ion-nav-title>
+     Adamlevine
+    </ion-nav-title>
+
+    <ion-nav-buttons side="right">
+      <a class="button button-icon icon ion-android-person-add" href="">
+      </a>
+      <a nav-direction="swap" class="button button-icon icon ion-android-more-vertical" href="#/tab/account/options">
+      </a>
+    </ion-nav-buttons>
+
+  <ion-content  ng-init="loadImages()">
+      <ion-refresher
+        pulling-text="Pull to refresh..."
+        on-refresh="doRefresh()">
+      </ion-refresher>
+      <div class="item-avatar item-thumbnail-left">
+	    	<img class="img-custom" src="img/adam.jpg">
+            <div class="row list-borderless">
+			        <a class="item item-text-wrap txt-custom"><p><b>1</b><br>posts</p></a>
+			        <a class="item item-text-wrap txt-custom"><p><b>2</b><br>followers</p></a>
+			        <a class="item item-text-wrap txt-custom"><p><b>3</b><br>following</p></a>
+			      </div>
+			      <a class="button button-small button-full button-stable btn-edit"><b>Edit Your Profile</b></a>
+      </div>
+    	<div class="item-text-wrap bio-custom">
+        <b>Adam Levine</b>
+        <p>Hello</p>
+      </div>
+    	<div class="item button-bar btn-bar-custom">
+    		<a class="item button button-icon icon ion-ios-keypad-outline positive" href="#/tab/account"></a>
+    		<a nav-direction="swap" class="item button button-icon icon ion-ios-list-outline" href="#/tab/account/list"></a>
+    		<a nav-direction="swap" class="item button button-icon icon ion-ios-photos-outline" href="#/tab/account/photo"></a>
+    	</div>
+  		<div class="row gallery-row" ng-repeat="image in gallery" ng-if="$index % 3 === 0">
+  			<div class="col col-33 gallery-col" ng-if="$index < gallery.length">
+  					<img ng-src="{{gallery[$index].src}}" width="100%" />
+  			</div>
+  			<div class="col col-33 gallery-col" ng-if="$index + 1 < gallery.length">
+  					<img ng-src="{{gallery[$index + 1].src}}" width="100%" />
+  			</div>
+  			<div class="col col-33 gallery-col" ng-if="$index + 2 < gallery.length">
+  					<img ng-src="{{gallery[$index + 2].src}}" width="100%" />
+  			</div>
+  		</div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,75 @@
+/* Empty. Add your own CSS if you like */
+
+/* for home tab*/
+.card{
+  margin: 0 !important;
+}
+
+.avatar-bar-custom{
+  margin-top: -12px !important;
+  margin-bottom: -12px !important;
+}
+
+.btn-avatar{
+  top: 16px !important;
+  right: 0px !important;
+}
+
+/* for search tab*/
+.gallery-col {
+  padding-left: 1px !important;
+  padding-right: 1px !important;
+  padding-top: 0px !important;
+  padding-bottom: 1px !important;
+}
+
+.gallery-row
+{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-top: 0px !important;
+  padding-bottom: 1px !important;
+}
+
+/* for love tab*/
+.go-top
+{
+  top: 0px !important;
+}
+
+.image-fix{
+right: 2px !important;
+top: 2px !important;
+padding: 10px;
+}
+
+.btn-fix{
+right: 1em !important;
+top: 1.4em !important;
+}
+
+
+  /*for profile tab*/
+
+.img-custom{
+top: 15px !important;
+left: 15px !important;
+}
+.txt-custom{
+  width: 100%;
+  text-align: center;
+  padding: 3px 7px 0px 7px !important;
+}
+.btn-edit{
+  min-height: 20px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  margin-right: 10px !important;
+  margin-left: 10px !important;
+}
+.bio-custom{
+  padding: 0px 20px 0px 20px !important;
+}
+.btn-bar-custom{
+  padding: 0px 0px 0px 0px !important;
+}
