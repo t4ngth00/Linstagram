@@ -47,4 +47,33 @@ angular.module('starter.services', [])
       return null;
     }
   };
+})
+
+.factory('Posts', function() {
+  // Post Data
+  var posts = [{
+    id: 0,
+    name: 'Ben',
+    avatar: 'img/ben.png',
+    image: 'img/ben.png',
+    likes: 1,
+    caption: 'first caption'
+  }, {
+    id: 1,
+    name: 'Max',
+    avatar: 'img/max.png',
+    image: 'img/max.png',
+    likes: 2,
+    caption: 'second caption'
+  }];
+
+  return {
+    all: function() {
+      return posts;
+    },
+    share: function(newdata) {
+      posts.push(newdata);
+      return posts;
+    }
+  };
 });

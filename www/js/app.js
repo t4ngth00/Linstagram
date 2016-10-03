@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -126,15 +126,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   // End Search //
 
   // Camera //
-  .state('tab.camera', {
+  .state('camera', {
     url: '/camera',
-    views: {
-      'tab-camera': {
-        templateUrl: 'templates/Camera/tab-camera.html',
-        controller: 'CameraCtrl'
-      }
-    }
+    templateUrl: 'templates/Camera/tab-camera.html',
+    controller: 'CameraCtrl'
   })
+
+  .state('post-confirm', {
+    url: '/confirm',
+    templateUrl: 'templates/Camera/post-confirm.html',
+    controller: 'CameraCtrl'
+  })
+
   // End Camera //
 
   // Love //
