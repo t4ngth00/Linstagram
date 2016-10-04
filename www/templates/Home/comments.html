@@ -1,0 +1,21 @@
+<ion-view>
+  <ion-header-bar align-title="center" >
+      <div class="buttons" >
+          <button class="button button-icon ion-android-arrow-back" ng-click="goBack()"> Comments</button>
+      </div>
+  </ion-header-bar>
+
+<ion-content class="has-header">
+          <div class="padding item-text-wrap">
+              <p ng-repeat="comment in post.comments">
+                  <b>{{comment.user.username}}</b> {{comment.comment}}
+              </p>
+          </div>
+          <form>
+              <label class="item item-input item-text-wrap">
+                  <input type="text" placeholder="Add a comment..." ng-model="mycomment" name="mycomment">
+              </label>
+              <input type="submit" id="submit" value="send" class="button button-positive" ng-click="addComment(mycomment)"/>
+          </form>
+</ion-content>
+</ion-view>

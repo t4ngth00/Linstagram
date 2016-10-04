@@ -1,12 +1,68 @@
 angular.module('starter.controllers', [])
 
 //.controller('HomeCtrl', function($scope) {})
+.controller('likeController', function($scope) {
+  $scope.buttonOn = false;
 
-.controller('HomeCtrl', function($scope, Posts) {
+  $scope.changeIcon = function() {
+    $scope.buttonOn = (!$scope.buttonOn);
+}
+
+  $scope.ChangeLikeStatus = function(post){
+    post.isLiked = !post.isLiked;
+
+    if( post.isLiked){
+      post.likes ++;
+    }
+    else{
+      post.likes --;
+    }
+  }
+})
+
+.controller('commentController', function($scope, $state, $stateParams, $ionicHistory, Posts) {
+  $scope.goBack = function() {
+    $ionicHistory.backView().go();
+  }
+
+  $scope.post = Posts.get($stateParams.postId);
+
+  $scope.master = {};
+  var posts = Posts.all();
+
+  $scope.addComment = function (mycomment) {
+      $scope.master = angular.copy(mycomment);
+      var comments = Posts.get($stateParams.postId).comments;
+      var new_comment = {
+          id: comments.length + 1,
+          user: {
+              id: 111111,
+              username: "SomeUser",
+          },
+          comment: $scope.master,
+          userRefs: [],
+          tags: []
+      }
+      Posts.get($stateParams.postId).comments.push(new_comment);
+      $state.reload();
+  }
+
+
+})
+
+
+.controller('HomeCtrl', function($scope,Posts, PostsServer, $state) {
   $scope.doRefresh = function() {
    alert("Refreshing");
    $scope.$broadcast('scroll.refreshComplete');
   };
+
+  PostsServer.all().then(function(data)
+       {
+         $scope.postsServer = data;
+       }
+    );
+
 
   $scope.posts = Posts.all();
 
