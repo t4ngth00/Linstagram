@@ -1,5 +1,10 @@
 // Ionic Starter App
 
+angular.module('config', []).constant('API_ENDPOINT', {
+  url: 'https://linnstagram-server.herokuapp.com/'
+});
+
+angular.module('starter.services', ['config']);
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
@@ -7,7 +12,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope, User, $state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -21,7 +26,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       StatusBar.styleDefault();
     }
   });
+
+  $rootScope.$on('$stateChangeError', function(e, toState, toParams, fromState, fromParams, error){
+      $state.go("login");
+  });
 })
+
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
@@ -37,10 +47,25 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: 'templates/tabs.html',
+    resolve: { islogged: function(User){
+        return User.isLogged();
+      }
+    }
   })
 
   // Each tab has its own nav history stack:
+  .state('login', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller: 'LoginCtrl'
+  })
+
+  .state('signup', {
+    url: '/signup',
+    templateUrl: 'templates/signup.html',
+    controller: 'SignupCtrl'
+  })
 
   // Home //
   .state('tab.home', {
@@ -56,27 +81,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   .state('comment', {
     url: '/comment/:postId',
     templateUrl: 'templates/Home/comments.html',
-    controller: 'commentController'
+    controller: 'PostCommentCtrl'
   })
 
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-home': {
-          templateUrl: 'templates/Home/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-home': {
-          templateUrl: 'templates/Home/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
   // End Home //
 
   // Search //
@@ -141,7 +148,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   .state('post-confirm', {
     url: '/confirm',
     templateUrl: 'templates/Camera/post-confirm.html',
-    controller: 'CameraCtrl'
+    controller: 'PostConfirmCtrl'
   })
 
   // End Camera //

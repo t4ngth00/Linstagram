@@ -1,94 +1,129 @@
 angular.module('starter.controllers', [])
 
 //.controller('HomeCtrl', function($scope) {})
-.controller('likeController', function($scope) {
-  $scope.buttonOn = false;
+.controller('HomeCtrl', function($scope, Posts, $ionicPopup, $ionicHistory, $state) {
 
-  $scope.changeIcon = function() {
-    $scope.buttonOn = (!$scope.buttonOn);
-}
+  $scope.$on('$ionicView.enter', function(){
+      Posts.all().then(function(data)
+           {
+             $scope.posts = data;
+           }
+        );
+  });
 
-  $scope.ChangeLikeStatus = function(post){
-    post.isLiked = !post.isLiked;
-
-    if( post.isLiked){
-      post.likes ++;
-    }
-    else{
-      post.likes --;
-    }
-  }
-})
-
-.controller('commentController', function($scope, $state, $stateParams, $ionicHistory, Posts) {
-  $scope.goBack = function() {
-    $ionicHistory.backView().go();
+  $scope.toggleLike = function(post)
+  {
+      Posts.toggleLike(post);
+      $ionicHistory.nextViewOptions({
+        disableAnimate: true,
+        disableBack: true
+      });
+      $state.go('tab.home',null,{reload:true});
   }
 
-  $scope.post = Posts.get($stateParams.postId);
 
-  $scope.master = {};
-  var posts = Posts.all();
-
-  $scope.addComment = function (mycomment) {
-      $scope.master = angular.copy(mycomment);
-      var comments = Posts.get($stateParams.postId).comments;
-      var new_comment = {
-          id: comments.length + 1,
-          user: {
-              id: 111111,
-              username: "SomeUser",
-          },
-          comment: $scope.master,
-          userRefs: [],
-          tags: []
-      }
-      Posts.get($stateParams.postId).comments.push(new_comment);
-      $state.reload();
+  $scope.comment = function(post)
+  {
+      $ionicHistory.nextViewOptions({
+        disableAnimate: true,
+        disableBack: true
+      });
+      $state.go('comment', { postId: post.id}, null, {reload:true} );
   }
 
 
 })
 
-
-.controller('HomeCtrl', function($scope,Posts, PostsServer, $state) {
-  $scope.doRefresh = function() {
-   alert("Refreshing");
-   $scope.$broadcast('scroll.refreshComplete');
+.controller('LoginCtrl', function($scope, User, $ionicPopup, $ionicHistory, $state) {
+  $scope.user = {
+    name: "",
+    password: ""
   };
 
-  PostsServer.all().then(function(data)
-       {
-         $scope.postsServer = data;
-       }
-    );
+  $scope.login = function()
+  {
+    User.login($scope.user.name, $scope.user.password).then(function(){
+      $ionicHistory.nextViewOptions({
+        disableBack: true
+      });
+      $state.go('tab.home');
+    }).catch(function(){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Login fail',
+        template: 'Incorrect username or password'
+      });
+    });
+  }
 
-
-  $scope.posts = Posts.all();
+  $scope.GoToSignup = function()
+  {
+    $state.go('signup');
+  }
 
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-  $scope.chats = Chats.all();
-})
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
+.controller('SignupCtrl', function($scope, User, $ionicPopup, $ionicHistory, $state) {
+  $scope.newuser = {
+    name: "",
+    password: ""
+  };
+
+  $scope.signup = function()
+  {
+    User.signup($scope.newuser.name, $scope.newuser.password).then(function(){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Signup successful',
+        template: 'Please go back to login page to log in'
+      });
+    }).catch(function(){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Signup fail',
+        template: 'Missing somethings'
+      });
+    });
+  }
+
+  $scope.goBack = function()
+  {
+      $ionicHistory.nextViewOptions({
+          disableBack: true
+      });
+      $state.go('login');
+  }
 })
 
+.controller('PostCommentCtrl', function($scope, $stateParams, User, Posts, $ionicScrollDelegate, $ionicHistory, $state) {
+    $scope.user = User.getLoggedUser();
+    $scope.comment = { text: "" };
+
+      Posts.getCommentsForPost($stateParams.postId).then(function(data) {
+          $scope.comments = data;
+          $ionicScrollDelegate.scrollBottom();
+      });
+
+    $scope.goBack = function()
+    {
+        $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+        $state.go('tab.home');
+    };
+
+    $scope.addComment = function()
+    {
+        Posts.addCommentToPost($scope.user.id, $scope.user.username, $stateParams.postId, $scope.comment.text).then(function(){
+            $ionicScrollDelegate.scrollBottom(true);
+            $scope.comment.text = "";
+            $ionicHistory.nextViewOptions({
+              disableAnimate: true,
+              disableBack: true
+            });
+            $state.go('comment', null, {reload:true});
+        });
+    }
+})
 
 .controller('SearchCtrl', function($scope) {
-  $scope.doRefresh = function() {
-   alert("Refreshing");
-   $scope.$broadcast('scroll.refreshComplete');
-  };
-
   $scope.gallery = [];
   $scope.loadImages = function() {
       for(var i = 0; i < 100; i++) {
@@ -98,35 +133,15 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SearchCtrl-top', function($scope) {
-  $scope.doRefresh = function() {
-   alert("Refreshing");
-   $scope.$broadcast('scroll.refreshComplete');
-  };
-
 })
 
 .controller('SearchCtrl-people', function($scope) {
-  $scope.doRefresh = function() {
-   alert("Refreshing");
-   $scope.$broadcast('scroll.refreshComplete');
-  };
-
 })
 
 .controller('SearchCtrl-tags', function($scope) {
-  $scope.doRefresh = function() {
-   alert("Refreshing");
-   $scope.$broadcast('scroll.refreshComplete');
-  };
-
 })
 
 .controller('SearchCtrl-places', function($scope) {
-  $scope.doRefresh = function() {
-   alert("Refreshing");
-   $scope.$broadcast('scroll.refreshComplete');
-  };
-
 })
 
 .controller('CameraCtrl', function($scope, $rootScope, $cordovaCamera, Posts, $state, $ionicHistory) {
@@ -143,14 +158,14 @@ angular.module('starter.controllers', [])
       popoverOptions: CameraPopoverOptions,
       saveToPhotoAlbum: false
   };
-
       $cordovaCamera.getPicture(options).then(function (imageData) {
           $rootScope.lastPhoto = imageData;
       }, function (err) {
         // An error occured. Show a message to the user
       });
   }
-  // choose picture function
+
+// choose picture function
   $scope.choosePhoto = function () {
     var options = {
       quality: 100,
@@ -162,28 +177,12 @@ angular.module('starter.controllers', [])
       popoverOptions: CameraPopoverOptions,
       saveToPhotoAlbum: false
   };
-
       $cordovaCamera.getPicture(options).then(function (imageData) {
           $rootScope.lastPhoto = imageData;
       }, function (err) {
           // An error occured. Show a message to the user
       });
   }
-
-  $scope.textContainer = {};
-
-  $scope.sharePhoto = function (newCaption) {
-
-    $scope.textContainer = angular.copy(newCaption);
-      Posts.share({
-        id: 2,
-        name: 'Nhan',
-        avatar: $rootScope.lastPhoto,
-        image: $rootScope.lastPhoto,
-        caption: $scope.textContainer
-       });
-       $state.go('tab.home');
-     }
 
     $scope.tabs = {
         gallery: true,
@@ -217,28 +216,38 @@ angular.module('starter.controllers', [])
         $state.go('post-confirm');
     }
 
-    $scope.goBackPost = function()
+})
+
+.controller('PostConfirmCtrl', function($scope, $rootScope, $state, $stateParams, $ionicHistory, Posts, User){
+    $scope.user = User.getLoggedUser();
+    $scope.post = {
+        imageData: $rootScope.lastPhoto,
+        caption: ""
+    };
+
+    $scope.goBack = function()
     {
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
         $state.go('camera');
-    }
+    };
 
+    $scope.sharePost = function()
+    {
+        Posts.new($scope.user.id ,$scope.user.username, $scope.post.imageData, $scope.post.caption).then(function(){
+            $ionicHistory.nextViewOptions({
+                disableBack: true
+            });
+            $state.go('tab.home',null,{reload:true});
+        });
+    };
 })
 
 .controller('LoveCtrl', function($scope) {
-  $scope.doRefresh = function() {
-   alert("Refreshing");
-   $scope.$broadcast('scroll.refreshComplete');
-  };
 })
 
 .controller('AccountCtrl', function($scope) {
-  $scope.doRefresh = function() {
-   alert("Refreshing");
-   $scope.$broadcast('scroll.refreshComplete');
-  };
   $scope.gallery = [];
   $scope.loadImages = function() {
       for(var i = 0; i < 100; i++) {

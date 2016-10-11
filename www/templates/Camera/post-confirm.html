@@ -1,9 +1,12 @@
-<form>
+<ion-view cache-view="false">
 <ion-header-bar align-title="center" >
     <div class="buttons" >
-        <button class="button button-icon ion-ios-close-empty" ng-click="goBackPost()"> Photo</button>
+        <button class="button button-icon ion-ios-close-empty" ng-click="goBack()"> Photo</button>
     </div>
     <h1 class="title">New post</h1>
+    <div class="buttons">
+    <button class="button button-clear button-positive" ng-click="sharePost()">Share</button>
+    </div>
 </ion-header-bar>
 <ion-content>
       <center>
@@ -11,12 +14,9 @@
       </center>
       <div>
         <label class="item item-input item-text-wrap">
-            <input type="text" placeholder="Write a caption..." ng-model="newCaption">
+            <input type="text" placeholder="Write a caption..." ng-model="post.caption">
         </label>
-      <center class="padding">
-        <input value="Share" type="submit" class="button button-calm " ng-click="sharePhoto(newCaption)">
-      </center>
     </div>
 
 </ion-content>
-  </form>
+</ion-view>

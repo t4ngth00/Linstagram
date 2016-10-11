@@ -15,6 +15,10 @@
   right: 0px !important;
 }
 
+.btn-send{
+  max-width: 40px !important;
+  right: 6px !important;
+}
 /* for search tab*/
 .gallery-col {
   padding-left: 1px !important;
