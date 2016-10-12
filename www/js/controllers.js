@@ -93,6 +93,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PostCommentCtrl', function($scope, $stateParams, User, Posts, $ionicScrollDelegate, $ionicHistory, $state) {
+
     $scope.user = User.getLoggedUser();
     $scope.comment = { text: "" };
 
@@ -114,12 +115,13 @@ angular.module('starter.controllers', [])
         Posts.addCommentToPost($scope.user.id, $scope.user.username, $stateParams.postId, $scope.comment.text).then(function(){
             $ionicScrollDelegate.scrollBottom(true);
             $scope.comment.text = "";
-            $ionicHistory.nextViewOptions({
-              disableAnimate: true,
-              disableBack: true
-            });
-            $state.go('comment', null, {reload:true});
         });
+        
+        $ionicHistory.nextViewOptions({
+          disableAnimate: true,
+          disableBack: true
+        });
+        $state.go('comment', null, {reload:true});
     }
 })
 

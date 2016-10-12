@@ -1,6 +1,7 @@
-<ion-header-bar align-title="center" >
+<ion-view cache-view="false">
+<ion-header-bar >
     <div class="buttons" >
-        <button class="button button-icon ion-ios-arrow-back" ng-click="goBack()"></button>
+        <button class="button button-icon ion-android-arrow-back" ng-click="goBack()"></button>
     </div>
     <h1 class="title">Comments</h1>
 </ion-header-bar>
@@ -13,12 +14,10 @@
     </a>
     </div>
 </ion-content>
-<ion-footer-bar align-title="left" class="bar-light">
-  <label class="item-input-wrapper">
-    <i class="icon ion-ios-redo-outline placeholder-icon"></i>
+<ion-footer-bar align-title="left" class="bar-light item-input-inset">
+  <label class="item item-input-wrapper">
     <input type="search" class="headerInput" placeholder="Add a comment..." ng-model="comment.text">
   </label>
-  <div class="buttons" ng-click="addComment()">
-    <button class="button">Post</button>
-  </div>
+    <button class="button icon-right ion-android-send button-calm"  ng-click="addComment()"></button>
 </ion-footer-bar>
+</ion-view>
